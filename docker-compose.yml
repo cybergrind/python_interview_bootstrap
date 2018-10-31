@@ -1,0 +1,70 @@
+version: '2.3'
+
+services:
+  ackermann:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+    image: intreview:web
+    scale: 5
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/ackermann"
+      - "traefik.backend=ackermann"
+    environment:
+      - CONTAINER_TYPE=ackermann
+      - FILEBEAT_NO_SSL=1
+
+  factorial:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+    image: interview:web
+    scale: 5
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/factorial"
+      - "traefik.backend=factorial"
+    environment:
+      - CONTAINER_TYPE=factorial
+      - FILEBEAT_NO_SSL=1
+
+  fibonacci:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+    image: interview:web
+    scale: 5
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/fibonacci"
+      - "traefik.backend=fibonacci"
+    environment:
+      - CONTAINER_TYPE=fibonacci
+      - FILEBEAT_NO_SSL=1
+
+  proxy:
+    image: traefik:1.7
+    command: --api --docker --metrics.prometheus=true
+    ports:
+      - '8000:80'
+      - '8080:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  prometheus:
+    image: prom/prometheus:v2.5.0
+    volumes:
+      - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command: "--config.file=/etc/prometheus/prometheus.yml"
+    depends_on:
+      - proxy
+
+  grafana:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.grafana
+    depends_on:
+      - prometheus
+    environment:
+      - 'GF_SERVER_ROOT_URL=http://localhost:8000/grafana/'
+      - 'GF_SECURITY_ADMIN_PASSWORD=admin'
+    labels:
+      - "traefik.frontend.rule=PathPrefixStrip:/grafana/"

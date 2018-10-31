@@ -1,0 +1,27 @@
+version: '2.3'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    ulimits:
+      nofile:
+        soft: 262140
+        hard: 262140
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.2
+    restart: always
+    environment:
+      - SERVER_NAME=http://localhost:8000/kibana/
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - SERVER_BASEPATH=/kibana
+      - SERVER_REWRITEBASEPATH=true
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/kibana"
+      - "traefik.backend=kibana"
+
+  logstash:
+    build:
+      context: ./docker/logstash
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200

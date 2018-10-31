@@ -1,0 +1,13 @@
+FROM tipsi/base_python:1.0.7
+
+ENV CONTAINER_TYPE web
+ENV SUPERVISOR_CONFIG /configs/supervisor-app.conf
+
+WORKDIR /home/docker/code
+ADD requirements.txt .
+RUN pip3 install -r requirements.txt
+ADD service service
+ADD configs/service /configs
+
+ENV LOGSTASH_HOST logstash
+EXPOSE 80
