@@ -1,7 +1,7 @@
 Prerequirements
 ===============
 
-Not test on OSes other than Linux. Maybe won't work on OSX.
+Haven't tested on OSes other than Linux. Maybe won't work on OSX.
 
 `python` >= 3.6
 
