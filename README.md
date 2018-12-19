@@ -1,3 +1,16 @@
+About this repo
+===============
+
+This code was extracted from python coding interview done by me. It is demonstrating some nice things we have by using opensource products.
+
+In this repo you have:
+
+* Simple API based on sanic in `./service/run.py`. It is pretty similar to `flask`. You may replace it with any other server (flask, django, etc)
+* Unit and E2E API tests with `pytest` in `./service/tests/`
+* Dynamic load balancing with `traefik`
+* Log collection to ELK (elasticsearch-logstash-kibana) from distributed services. So you get all logs in single place
+* Metrics collection with `prometheus` and visualisation with `kibana`
+
 Prerequirements
 ===============
 
