@@ -7,7 +7,7 @@ demo: run_all generate-traffic
 	@echo -e '----------------------------------------------\n'
 	@echo Grafana here: 'https://goo.gl/TQtwSb'
 	@echo Grafana user/password: admin/admin
-	@echo Setup kibana by guide: 'https://goo.gl/HWbaiv'
+	@echo Setup kibana by guide: 'https://goo.gl/pj4aXb'
 	@echo -e '\t\t\t\tEnjoy!'
 	@echo -e '----------------------------------------------'
 
