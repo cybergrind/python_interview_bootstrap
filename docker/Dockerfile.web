@@ -1,6 +1,6 @@
 FROM tipsi/base_python:1.0.7
 
-ENV CONTAINER_TYPE web
+ENV CONTAINER_TYPE sanic_service
 ENV SUPERVISOR_CONFIG /configs/supervisor-app.conf
 
 WORKDIR /home/docker/code

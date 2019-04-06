@@ -1,5 +1,5 @@
 FULL_COMPOSE=docker-compose -f docker-compose.yml -f docker/compose-elk.yml -p interview
-.PHONY=requirements logs
+.PHONY=requirements logs up
 
 run_all: build build_logstash full_run
 
@@ -11,8 +11,10 @@ demo: run_all generate-traffic
 	@echo -e '\t\t\t\tEnjoy!'
 	@echo -e '----------------------------------------------'
 
-run: build
-	docker-compose up -d
+up:
+	docker-compose -p interview up -d
+
+run: build up
 
 run_local: venv/bin/pytest
 	LOG_DIR=/tmp ./venv/bin/python service/run.py --port=8000

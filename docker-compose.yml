@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.web
     image: intreview:web
-    scale: 5
+    scale: 2
     labels:
       - "traefik.frontend.rule=PathPrefix:/ackermann"
       - "traefik.backend=ackermann"
@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.web
     image: interview:web
-    scale: 5
+    scale: 1
     labels:
       - "traefik.frontend.rule=PathPrefix:/factorial"
       - "traefik.backend=factorial"
@@ -32,7 +32,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.web
     image: interview:web
-    scale: 5
+    scale: 1
     labels:
       - "traefik.frontend.rule=PathPrefix:/fibonacci"
       - "traefik.backend=fibonacci"
@@ -68,3 +68,14 @@ services:
       - 'GF_SECURITY_ADMIN_PASSWORD=admin'
     labels:
       - "traefik.frontend.rule=PathPrefixStrip:/grafana/"
+
+  django:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.django
+    labels:
+      # https://docs.traefik.io/v1.6/configuration/backends/docker/#on-containers-with-multiple-ports-segment-labels
+      - "traefik.api.frontend.rule=PathPrefix:/api"
+      - "traefik.admin.frontend.rule=PathPrefix:/admin"
+      - "traefik.static.frontend.rule=PathPrefix:/static"
+      - "traefik.backend=django"
