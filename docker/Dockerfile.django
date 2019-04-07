@@ -3,11 +3,15 @@ FROM tipsi/base_python:1.0.7
 ENV CONTAINER_TYPE django_app
 ENV SUPERVISOR_CONFIG /configs/supervisor-app.conf
 ENV LOGSTASH_HOST logstash
+ENV LOG_DIR /var/log/django
+ENV DJANGO_SETTINGS_MODULE django_app.settings
+
 
 WORKDIR /home/docker/code
 ADD django_app/requirements.txt .
 RUN pip3 install -r requirements.txt
 ADD configs/django_app /configs
 ADD django_app .
+RUN mkdir ${LOG_DIR}
 RUN ./manage.py collectstatic --noinput
 EXPOSE 80

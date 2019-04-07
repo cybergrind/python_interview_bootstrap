@@ -1,4 +1,11 @@
 django==2.2
 djangorestframework==3.9.2
 rest_framework_dyn_serializer==1.3.1
-tipsi_tools==1.41.0
+django-filter==2.1.0
+tipsi_tools[logging]==1.41.0
+fan==0.14.0
+
+# testing
+pytest==4.4.0
+pytest-tipsi-django==2.0.1
+pytest-xdist==1.28.0

@@ -73,6 +73,9 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.django
+    environment:
+      - DEBUG=${DEBUG:-0}
+
     labels:
       # https://docs.traefik.io/v1.6/configuration/backends/docker/#on-containers-with-multiple-ports-segment-labels
       - "traefik.api.frontend.rule=PathPrefix:/api"
