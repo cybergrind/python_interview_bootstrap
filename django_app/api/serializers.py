@@ -1,5 +1,5 @@
 from api.models import Author, Book
-from rest_framework import serializers
+from rest_framework import serializers, fields
 from rest_framework_dyn_serializer import DynModelSerializer
 
 
@@ -22,6 +22,8 @@ class AuthorSerializer(DynModelSerializer):
 
 class BookSerializer(DynModelSerializer):
     author = AuthorSerializer(nested=True, fields=['id', 'name'])
+    similarity = fields.FloatField(read_only=True)
+    distance = fields.FloatField(read_only=True)
 
     def validate_title(self, value):
         if value.lower().startswith('math'):
@@ -32,3 +34,4 @@ class BookSerializer(DynModelSerializer):
         model = Book
         limit_fields = True
         fields_param = 'book_fields'
+        fields = ['id', 'title', 'author', 'distance', 'similarity']
